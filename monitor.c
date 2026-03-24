@@ -33,3 +33,32 @@ void get_cpu_usage() {
 
     printf("CPU Usage: %.2f%%\n", cpu_usage);
 }
+
+// ---------- RAM USAGE ----------
+void get_ram_usage() {
+    FILE *fp;
+    char label[50];
+    long total_mem = 0, free_mem = 0;
+
+    fp = fopen("/proc/meminfo", "r");
+    if (fp == NULL) {
+        perror("Error opening /proc/meminfo");
+        return;
+    }
+
+    while (fscanf(fp, "%s %ld kB\n", label, &total_mem) != EOF) {
+        if (strcmp(label, "MemTotal:") == 0) {
+            total_mem = total_mem;
+        } else if (strcmp(label, "MemAvailable:") == 0) {
+            free_mem = total_mem;
+            break;
+        }
+    }
+
+    fclose(fp);
+
+    long used = total_mem - free_mem;
+    float usage = ((float)used / total_mem) * 100;
+
+    printf("RAM Usage: %.2f%%\n", usage);
+}
