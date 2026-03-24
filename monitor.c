@@ -62,3 +62,21 @@ void get_ram_usage() {
 
     printf("RAM Usage: %.2f%%\n", usage);
 }
+
+// ---------- DISK USAGE ----------
+void get_disk_usage() {
+    struct statvfs stat;
+
+    if (statvfs("/", &stat) != 0) {
+        perror("statvfs failed");
+        return;
+    }
+
+    unsigned long total = stat.f_blocks * stat.f_frsize;
+    unsigned long free = stat.f_bfree * stat.f_frsize;
+    unsigned long used = total - free;
+
+    float usage = ((float)used / total) * 100;
+
+    printf("Disk Usage: %.2f%%\n", usage);
+}
