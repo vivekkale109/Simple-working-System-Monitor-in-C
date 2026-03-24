@@ -80,3 +80,22 @@ void get_disk_usage() {
 
     printf("Disk Usage: %.2f%%\n", usage);
 }
+
+// ---------- MAIN ----------
+int main() {
+    while (1) {
+        system("clear"); // clear terminal
+
+        printf("===== SYSTEM MONITOR =====\n\n");
+
+        get_cpu_usage();
+        get_ram_usage();
+        get_disk_usage();
+
+        printf("\nPress Ctrl+C to exit...\n");
+
+        sleep(1); // refresh every second
+    }
+
+    return 0;
+}
